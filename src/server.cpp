@@ -131,7 +131,11 @@ void serverDDH(vector<block> &xx, vector<uint32_t> &xu, ipcl::PublicKey pk, ipcl
         if ((dec >> 32) == ZeroBlock) {
           uint32_t value = *(uint32_t *) &dec;
           value += ww[i];
-          std::printf("DDH ok %zu %zu %zu %d\n", cuckooA.mBins[i].idx(), j, k, value);
+
+          if (print) {
+            std::printf("DDH ok %zu %zu %zu %d\n", cuckooA.mBins[i].idx(), j, k, value);
+          }
+          break;
         }
       }
     }
@@ -143,7 +147,8 @@ void serverDDH(vector<block> &xx, vector<uint32_t> &xu, ipcl::PublicKey pk, ipcl
   auto end = std::chrono::high_resolution_clock::now();
   uint64_t duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
   size_t transfer = chl.bytesReceived() + chl.bytesSent();
-  printf("Transfer: %lu bytes, %02.2f KiB, %02.2f MiB, %lu ms\n",
+  printf("DDH n=%lu: Transfer: %lu bytes, %02.2f KiB, %02.2f MiB, %lu ms\n",
+         n,
          transfer,
          (double) transfer / 1024,
          (double) transfer / 1048576,
@@ -271,7 +276,11 @@ void serverOPRF(vector<block> &xx, vector<uint32_t> &xu, ipcl::PublicKey pk, ipc
         if ((dec >> 32) == ZeroBlock) {
           uint32_t value = *(uint32_t *) &dec;
           value += ww[i];
-          std::printf("OPRF ok %zu %zu %zu %d\n", cuckooA.mBins[i].idx(), j, k, value);
+
+          if (print) {
+            std::printf("OPRF ok %zu %zu %zu %d\n", cuckooA.mBins[i].idx(), j, k, value);
+          }
+          break;
         }
       }
     }
@@ -283,7 +292,8 @@ void serverOPRF(vector<block> &xx, vector<uint32_t> &xu, ipcl::PublicKey pk, ipc
   auto end = std::chrono::high_resolution_clock::now();
   uint64_t duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
   size_t transfer = chl.bytesReceived() + chl.bytesSent();
-  printf("Transfer: %lu bytes, %02.2f KiB, %02.2f MiB, %lu ms\n",
+  printf("OPRF n=%lu, Transfer: %lu bytes, %02.2f KiB, %02.2f MiB, %lu ms\n",
+         n,
          transfer,
          (double) transfer / 1024,
          (double) transfer / 1048576,
